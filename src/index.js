@@ -27,9 +27,13 @@ exports.handler = async (event) => {
     }
 
     // Parse the input text from the event
-    const inputText = event?.text || ''; // Input provided in event object
+    const inputText = JSON.parse(event?.body).text || ''; // Input provided in event object
     if (!inputText) {
-        return { error: 'No input text provided' };
+
+        return {
+            input: event.text, 
+            error: 'No input text provided' 
+        };
     }
 
     // Tokenize the input text into words and transform them using the dictionary
