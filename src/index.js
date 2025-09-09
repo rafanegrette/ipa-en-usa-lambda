@@ -27,7 +27,7 @@ exports.handler = async (event) => {
     }
 
     // Parse the input text from the event
-    const inputText = JSON.parse(event?.body).text || ''; // Input provided in event object
+    const inputText = event?.text || ''; // Input provided in event object
     if (!inputText) {
 
         return {
