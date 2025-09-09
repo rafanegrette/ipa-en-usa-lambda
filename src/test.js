@@ -1,7 +1,7 @@
 const handler = require('./index').handler;
 
 const testEvent = {
-    text: "Hello this is a beautiful days"
+    text: "Anderson said, “Where's Jimmy, dear? "
 };
 
 handler(testEvent).then(response => {

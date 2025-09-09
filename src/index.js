@@ -40,11 +40,21 @@ exports.handler = async (event) => {
     const transformedText = inputText
         .split(/\s+/) // Split text into words based on spaces
         .map(word => {
-            const pronunciation = dictionary[word.toLowerCase()];
+            // Extract punctuation from start and end of word
+            const startPuncMatch = word.match(/^[^\w]*/);
+            const endPuncMatch = word.match(/[^\w]*$/);
+            const startPunc = startPuncMatch ? startPuncMatch[0] : '';
+            const endPunc = endPuncMatch ? endPuncMatch[0] : '';
+            
+            // Get the clean word without punctuation
+            const cleanWord = word.slice(startPunc.length, word.length - endPunc.length);
+            
+            const pronunciation = dictionary[cleanWord.toLowerCase()];
+                 
             if (pronunciation) {
                 // Remove forward slashes from IPA pronunciation and take only the first pronunciation
                 const cleanPronunciation = pronunciation.replace(/\//g, '');
-                return cleanPronunciation.split(',')[0].trim();
+                return startPunc + cleanPronunciation.split(',')[0].trim() + endPunc;
             }
             return word;
         }) // Replace word if found in dictionary, removing slashes
